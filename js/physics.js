@@ -417,14 +417,26 @@ const Physics = {
 
         // Draw based on target type
         if (data.emoji) {
-            const fontSize = (data.size || 60) * 1.5; // Make emojis bigger
+            const fontSize = (data.size || 80) * 2; // Much bigger emojis
             this.ctx.font = `${fontSize}px Arial`;
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
 
-            // Draw shadow/base layer
-            this.ctx.fillStyle = 'rgba(0,0,0,0.3)';
-            this.ctx.fillText(data.emoji, 3, 3);
+            // Draw solid background circle to make emoji more visible
+            const bgRadius = fontSize * 0.55;
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            this.ctx.beginPath();
+            this.ctx.arc(0, 0, bgRadius, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            // Draw background border
+            this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.4)';
+            this.ctx.lineWidth = 4;
+            this.ctx.stroke();
+
+            // Draw shadow for depth
+            this.ctx.fillStyle = 'rgba(0,0,0,0.4)';
+            this.ctx.fillText(data.emoji, 4, 4);
 
             // Draw main emoji
             this.ctx.fillText(data.emoji, 0, 0);
@@ -434,9 +446,9 @@ const Physics = {
                 this.drawDamageEffects(damagePercent, fontSize);
             }
         } else {
-            // Default box shape
-            const w = data.width || 60;
-            const h = data.height || 60;
+            // Default box shape - make bigger
+            const w = (data.width || 80) * 1.5;
+            const h = (data.height || 80) * 1.5;
 
             // Base color gets darker/more damaged looking
             let baseColor = data.color || '#FF6B6B';
@@ -444,12 +456,17 @@ const Physics = {
                 baseColor = this.darkenColor(baseColor, damagePercent * 0.4);
             }
 
+            // Draw shadow
+            this.ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            this.ctx.fillRect(-w / 2 + 5, -h / 2 + 5, w, h);
+
+            // Draw main box
             this.ctx.fillStyle = baseColor;
             this.ctx.fillRect(-w / 2, -h / 2, w, h);
 
             // Border
             this.ctx.strokeStyle = this.darkenColor(baseColor, 0.3);
-            this.ctx.lineWidth = 3;
+            this.ctx.lineWidth = 5;
             this.ctx.strokeRect(-w / 2, -h / 2, w, h);
 
             // Draw cracks and damage on boxes

@@ -2,9 +2,9 @@
 const Launcher = {
     x: 0,
     y: 0,
-    baseWidth: 80,
-    baseHeight: 40,
-    turretLength: 60,
+    baseWidth: 160,
+    baseHeight: 80,
+    turretLength: 120,
     angle: -Math.PI / 4, // 45 degrees up
     power: 0,
     maxPower: 25,
@@ -17,8 +17,8 @@ const Launcher = {
 
     init(canvasWidth, canvasHeight) {
         // Position launcher at bottom left
-        this.x = canvasWidth * 0.1;
-        this.y = canvasHeight - 70; // Above ground
+        this.x = canvasWidth * 0.12;
+        this.y = canvasHeight - 100; // Above ground
         this.currentVehicle = Vehicles.get('jeep');
         this.currentProjectile = Projectiles.get('standardMissile');
     },
@@ -164,32 +164,42 @@ const Launcher = {
         // Vehicle body
         ctx.fillStyle = vehicle.color;
         ctx.beginPath();
-        ctx.roundRect(-this.baseWidth / 2, -this.baseHeight / 2, this.baseWidth, this.baseHeight, 10);
+        ctx.roundRect(-this.baseWidth / 2, -this.baseHeight / 2, this.baseWidth, this.baseHeight, 15);
         ctx.fill();
 
+        // Vehicle border
+        ctx.strokeStyle = '#1a1a1a';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
         // Vehicle highlight
-        ctx.fillStyle = 'rgba(255,255,255,0.2)';
-        ctx.fillRect(-this.baseWidth / 2 + 5, -this.baseHeight / 2 + 5, this.baseWidth - 10, this.baseHeight / 3);
+        ctx.fillStyle = 'rgba(255,255,255,0.3)';
+        ctx.fillRect(-this.baseWidth / 2 + 10, -this.baseHeight / 2 + 10, this.baseWidth - 20, this.baseHeight / 3);
 
         // Wheels
         ctx.fillStyle = '#2C3E50';
+        ctx.beginPath();
+        ctx.arc(-this.baseWidth / 3, this.baseHeight / 2 - 5, 25, 0, Math.PI * 2);
+        ctx.arc(this.baseWidth / 3, this.baseHeight / 2 - 5, 25, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Wheel border
+        ctx.strokeStyle = '#1a1a1a';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Wheel detail
+        ctx.fillStyle = '#7F8C8D';
         ctx.beginPath();
         ctx.arc(-this.baseWidth / 3, this.baseHeight / 2 - 5, 12, 0, Math.PI * 2);
         ctx.arc(this.baseWidth / 3, this.baseHeight / 2 - 5, 12, 0, Math.PI * 2);
         ctx.fill();
 
-        // Wheel detail
-        ctx.fillStyle = '#7F8C8D';
-        ctx.beginPath();
-        ctx.arc(-this.baseWidth / 3, this.baseHeight / 2 - 5, 6, 0, Math.PI * 2);
-        ctx.arc(this.baseWidth / 3, this.baseHeight / 2 - 5, 6, 0, Math.PI * 2);
-        ctx.fill();
-
         // Vehicle emoji
-        ctx.font = '30px Arial';
+        ctx.font = '50px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(vehicle.emoji, 0, -5);
+        ctx.fillText(vehicle.emoji, 0, -10);
     },
 
     drawTurret(ctx) {
@@ -197,28 +207,41 @@ const Launcher = {
         ctx.rotate(this.angle);
 
         // Turret barrel
-        const gradient = ctx.createLinearGradient(0, -8, 0, 8);
-        gradient.addColorStop(0, '#7F8C8D');
+        const gradient = ctx.createLinearGradient(0, -18, 0, 18);
+        gradient.addColorStop(0, '#5a6268');
+        gradient.addColorStop(0.3, '#7F8C8D');
         gradient.addColorStop(0.5, '#95A5A6');
-        gradient.addColorStop(1, '#7F8C8D');
+        gradient.addColorStop(0.7, '#7F8C8D');
+        gradient.addColorStop(1, '#5a6268');
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.roundRect(0, -8, this.turretLength, 16, 3);
+        ctx.roundRect(0, -18, this.turretLength, 36, 6);
         ctx.fill();
 
-        // Barrel end
+        // Barrel border
+        ctx.strokeStyle = '#2C3E50';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Barrel end (muzzle)
         ctx.fillStyle = '#2C3E50';
         ctx.beginPath();
-        ctx.roundRect(this.turretLength - 5, -10, 10, 20, 2);
+        ctx.roundRect(this.turretLength - 10, -22, 20, 44, 4);
+        ctx.fill();
+
+        // Muzzle hole
+        ctx.fillStyle = '#1a1a1a';
+        ctx.beginPath();
+        ctx.arc(this.turretLength, 0, 12, 0, Math.PI * 2);
         ctx.fill();
 
         // Current ammo preview
         if (this.currentProjectile.emoji) {
-            ctx.font = '20px Arial';
+            ctx.font = '35px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(this.currentProjectile.emoji, this.turretLength + 15, 0);
+            ctx.fillText(this.currentProjectile.emoji, this.turretLength + 30, 0);
         }
 
         ctx.restore();
@@ -242,16 +265,21 @@ const Launcher = {
     },
 
     drawPowerIndicator(ctx) {
-        const barWidth = 150;
-        const barHeight = 15;
+        const barWidth = 200;
+        const barHeight = 25;
         const x = this.x - barWidth / 2;
-        const y = this.y + 50;
+        const y = this.y + 70;
 
         // Background
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.beginPath();
-        ctx.roundRect(x, y, barWidth, barHeight, 5);
+        ctx.roundRect(x, y, barWidth, barHeight, 8);
         ctx.fill();
+
+        // Border
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
 
         // Power fill
         const powerPercent = this.power / this.maxPower;
@@ -262,19 +290,19 @@ const Launcher = {
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.roundRect(x + 2, y + 2, (barWidth - 4) * powerPercent, barHeight - 4, 3);
+        ctx.roundRect(x + 3, y + 3, (barWidth - 6) * powerPercent, barHeight - 6, 5);
         ctx.fill();
 
         // Power text
         ctx.fillStyle = 'white';
-        ctx.font = 'bold 12px Arial';
+        ctx.font = 'bold 16px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(`POWER: ${Math.round(powerPercent * 100)}%`, this.x, y + barHeight / 2);
     },
 
     resize(canvasWidth, canvasHeight) {
-        this.x = canvasWidth * 0.1;
-        this.y = canvasHeight - 70;
+        this.x = canvasWidth * 0.12;
+        this.y = canvasHeight - 100;
     }
 };
