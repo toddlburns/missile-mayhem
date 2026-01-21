@@ -12,13 +12,13 @@ const Levels = {
             minScore: 100,
             targets: [
                 // Simple stacked boxes
-                { x: 0.6, y: 0.85, w: 60, h: 60, emoji: '🤖', health: 80, points: 20 },
-                { x: 0.65, y: 0.75, w: 50, h: 50, emoji: '🤖', health: 60, points: 15 },
-                { x: 0.7, y: 0.85, w: 60, h: 60, emoji: '🤖', health: 80, points: 20 },
+                { x: 0.55, y: 0.82, w: 90, h: 90, emoji: '🤖', health: 80, points: 20 },
+                { x: 0.62, y: 0.68, w: 80, h: 80, emoji: '🤖', health: 60, points: 15 },
+                { x: 0.72, y: 0.82, w: 90, h: 90, emoji: '🤖', health: 80, points: 20 },
 
                 // Tower
-                { x: 0.8, y: 0.85, w: 40, h: 80, emoji: '📦', health: 100, points: 10, color: '#C9A66B' },
-                { x: 0.8, y: 0.65, w: 50, h: 50, emoji: '🤖', health: 70, points: 25 },
+                { x: 0.85, y: 0.82, w: 70, h: 100, emoji: '📦', health: 100, points: 10, color: '#C9A66B' },
+                { x: 0.85, y: 0.62, w: 80, h: 80, emoji: '🤖', health: 70, points: 25 },
             ],
             platforms: [
                 // No extra platforms for level 1
@@ -36,17 +36,17 @@ const Levels = {
             minScore: 200,
             targets: [
                 // Jello tower 1
-                { x: 0.55, y: 0.85, w: 50, h: 40, emoji: '🟩', health: 50, points: 15, restitution: 0.7 },
-                { x: 0.55, y: 0.75, w: 45, h: 35, emoji: '🟨', health: 45, points: 15, restitution: 0.7 },
-                { x: 0.55, y: 0.67, w: 40, h: 30, emoji: '🟥', health: 40, points: 20, restitution: 0.7 },
+                { x: 0.5, y: 0.82, w: 85, h: 70, emoji: '🟩', health: 50, points: 15, restitution: 0.7 },
+                { x: 0.5, y: 0.68, w: 75, h: 60, emoji: '🟨', health: 45, points: 15, restitution: 0.7 },
+                { x: 0.5, y: 0.56, w: 65, h: 50, emoji: '🟥', health: 40, points: 20, restitution: 0.7 },
 
                 // Jello tower 2
-                { x: 0.7, y: 0.85, w: 55, h: 45, emoji: '🟦', health: 55, points: 15, restitution: 0.7 },
-                { x: 0.7, y: 0.73, w: 50, h: 40, emoji: '🟪', health: 50, points: 20, restitution: 0.7 },
-                { x: 0.7, y: 0.63, w: 45, h: 35, emoji: '🟧', health: 45, points: 25, restitution: 0.7 },
+                { x: 0.72, y: 0.82, w: 90, h: 75, emoji: '🟦', health: 55, points: 15, restitution: 0.7 },
+                { x: 0.72, y: 0.66, w: 80, h: 65, emoji: '🟪', health: 50, points: 20, restitution: 0.7 },
+                { x: 0.72, y: 0.52, w: 70, h: 55, emoji: '🟧', health: 45, points: 25, restitution: 0.7 },
 
                 // Bridge jello
-                { x: 0.625, y: 0.55, w: 100, h: 25, emoji: '🍮', health: 60, points: 30, restitution: 0.8 },
+                { x: 0.61, y: 0.42, w: 150, h: 45, emoji: '🍮', health: 60, points: 30, restitution: 0.8 },
             ],
             platforms: []
         },
@@ -62,19 +62,19 @@ const Levels = {
             minScore: 300,
             targets: [
                 // Ground veggies with crates
-                { x: 0.5, y: 0.85, w: 50, h: 50, emoji: '📦', health: 80, points: 5, color: '#8B4513' },
-                { x: 0.5, y: 0.73, w: 40, h: 40, emoji: '🥕', health: 40, points: 20 },
+                { x: 0.45, y: 0.82, w: 80, h: 80, emoji: '📦', health: 80, points: 5, color: '#8B4513' },
+                { x: 0.45, y: 0.66, w: 70, h: 70, emoji: '🥕', health: 40, points: 20 },
 
-                { x: 0.6, y: 0.85, w: 50, h: 50, emoji: '📦', health: 80, points: 5, color: '#8B4513' },
-                { x: 0.65, y: 0.85, w: 50, h: 50, emoji: '📦', health: 80, points: 5, color: '#8B4513' },
-                { x: 0.625, y: 0.73, w: 45, h: 45, emoji: '🍅', health: 35, points: 25 },
+                { x: 0.58, y: 0.82, w: 80, h: 80, emoji: '📦', health: 80, points: 5, color: '#8B4513' },
+                { x: 0.68, y: 0.82, w: 80, h: 80, emoji: '📦', health: 80, points: 5, color: '#8B4513' },
+                { x: 0.63, y: 0.66, w: 75, h: 75, emoji: '🍅', health: 35, points: 25 },
 
-                { x: 0.75, y: 0.85, w: 55, h: 55, emoji: '📦', health: 90, points: 5, color: '#8B4513' },
-                { x: 0.75, y: 0.7, w: 50, h: 50, emoji: '📦', health: 80, points: 5, color: '#8B4513' },
-                { x: 0.75, y: 0.58, w: 40, h: 40, emoji: '🥦', health: 45, points: 30 },
+                { x: 0.8, y: 0.82, w: 85, h: 85, emoji: '📦', health: 90, points: 5, color: '#8B4513' },
+                { x: 0.8, y: 0.64, w: 80, h: 80, emoji: '📦', health: 80, points: 5, color: '#8B4513' },
+                { x: 0.8, y: 0.48, w: 70, h: 70, emoji: '🥦', health: 45, points: 30 },
 
                 // Sneaky veggie
-                { x: 0.85, y: 0.85, w: 35, h: 35, emoji: '🧅', health: 50, points: 35 },
+                { x: 0.92, y: 0.82, w: 65, h: 65, emoji: '🧅', health: 50, points: 35 },
             ],
             platforms: []
         },
@@ -90,23 +90,23 @@ const Levels = {
             minScore: 400,
             targets: [
                 // Pillow fort base
-                { x: 0.5, y: 0.85, w: 70, h: 40, emoji: '🛋️', health: 100, points: 10, color: '#9370DB' },
-                { x: 0.58, y: 0.85, w: 70, h: 40, emoji: '🛋️', health: 100, points: 10, color: '#DDA0DD' },
+                { x: 0.45, y: 0.82, w: 100, h: 70, emoji: '🛋️', health: 100, points: 10, color: '#9370DB' },
+                { x: 0.56, y: 0.82, w: 100, h: 70, emoji: '🛋️', health: 100, points: 10, color: '#DDA0DD' },
 
                 // Aliens
-                { x: 0.54, y: 0.73, w: 35, h: 50, emoji: '👽', health: 50, points: 30 },
+                { x: 0.5, y: 0.64, w: 70, h: 80, emoji: '👽', health: 50, points: 30 },
 
                 // Second fort
-                { x: 0.7, y: 0.85, w: 60, h: 50, emoji: '🧸', health: 70, points: 10 },
-                { x: 0.78, y: 0.85, w: 60, h: 50, emoji: '🧸', health: 70, points: 10 },
-                { x: 0.74, y: 0.7, w: 50, h: 40, emoji: '🛋️', health: 80, points: 10, color: '#87CEEB' },
+                { x: 0.72, y: 0.82, w: 90, h: 80, emoji: '🧸', health: 70, points: 10 },
+                { x: 0.84, y: 0.82, w: 90, h: 80, emoji: '🧸', health: 70, points: 10 },
+                { x: 0.78, y: 0.64, w: 85, h: 70, emoji: '🛋️', health: 80, points: 10, color: '#87CEEB' },
 
                 // Aliens on top
-                { x: 0.7, y: 0.58, w: 30, h: 45, emoji: '👾', health: 45, points: 35 },
-                { x: 0.78, y: 0.58, w: 30, h: 45, emoji: '👾', health: 45, points: 35 },
+                { x: 0.72, y: 0.48, w: 65, h: 75, emoji: '👾', health: 45, points: 35 },
+                { x: 0.84, y: 0.48, w: 65, h: 75, emoji: '👾', health: 45, points: 35 },
 
                 // Lookout alien
-                { x: 0.9, y: 0.85, w: 40, h: 55, emoji: '🛸', health: 60, points: 40 },
+                { x: 0.94, y: 0.82, w: 70, h: 85, emoji: '🛸', health: 60, points: 40 },
             ],
             platforms: []
         },
@@ -122,21 +122,21 @@ const Levels = {
             minScore: 500,
             targets: [
                 // Cake tower 1
-                { x: 0.45, y: 0.85, w: 80, h: 30, emoji: '🎂', health: 70, points: 20 },
-                { x: 0.45, y: 0.75, w: 65, h: 25, emoji: '🍰', health: 60, points: 20 },
-                { x: 0.45, y: 0.67, w: 50, h: 20, emoji: '🧁', health: 50, points: 25 },
-                { x: 0.45, y: 0.60, w: 30, h: 30, emoji: '🕯️', health: 30, points: 30 },
+                { x: 0.4, y: 0.82, w: 120, h: 55, emoji: '🎂', health: 70, points: 20 },
+                { x: 0.4, y: 0.68, w: 100, h: 45, emoji: '🍰', health: 60, points: 20 },
+                { x: 0.4, y: 0.56, w: 80, h: 40, emoji: '🧁', health: 50, points: 25 },
+                { x: 0.4, y: 0.46, w: 55, h: 55, emoji: '🕯️', health: 30, points: 30 },
 
                 // Cake tower 2 (taller)
-                { x: 0.65, y: 0.85, w: 90, h: 35, emoji: '🎂', health: 80, points: 20 },
-                { x: 0.65, y: 0.73, w: 75, h: 30, emoji: '🍰', health: 70, points: 20 },
-                { x: 0.65, y: 0.63, w: 60, h: 25, emoji: '🧁', health: 60, points: 25 },
-                { x: 0.65, y: 0.55, w: 45, h: 20, emoji: '🍰', health: 50, points: 25 },
-                { x: 0.65, y: 0.48, w: 35, h: 35, emoji: '🕯️', health: 35, points: 35 },
+                { x: 0.65, y: 0.82, w: 130, h: 60, emoji: '🎂', health: 80, points: 20 },
+                { x: 0.65, y: 0.66, w: 110, h: 50, emoji: '🍰', health: 70, points: 20 },
+                { x: 0.65, y: 0.52, w: 90, h: 45, emoji: '🧁', health: 60, points: 25 },
+                { x: 0.65, y: 0.40, w: 70, h: 40, emoji: '🍰', health: 50, points: 25 },
+                { x: 0.65, y: 0.30, w: 60, h: 60, emoji: '🕯️', health: 35, points: 35 },
 
                 // Side cupcakes
-                { x: 0.82, y: 0.85, w: 40, h: 40, emoji: '🧁', health: 45, points: 25 },
-                { x: 0.88, y: 0.85, w: 40, h: 40, emoji: '🧁', health: 45, points: 25 },
+                { x: 0.85, y: 0.82, w: 70, h: 70, emoji: '🧁', health: 45, points: 25 },
+                { x: 0.93, y: 0.82, w: 70, h: 70, emoji: '🧁', health: 45, points: 25 },
             ],
             platforms: []
         },
@@ -152,25 +152,25 @@ const Levels = {
             minScore: 600,
             targets: [
                 // Mini ducks as defense
-                { x: 0.45, y: 0.85, w: 40, h: 40, emoji: '🦆', health: 60, points: 20 },
-                { x: 0.52, y: 0.85, w: 40, h: 40, emoji: '🦆', health: 60, points: 20 },
+                { x: 0.4, y: 0.82, w: 70, h: 70, emoji: '🦆', health: 60, points: 20 },
+                { x: 0.5, y: 0.82, w: 70, h: 70, emoji: '🦆', health: 60, points: 20 },
 
                 // Medium duck
-                { x: 0.6, y: 0.82, w: 60, h: 60, emoji: '🦆', health: 100, points: 35 },
+                { x: 0.6, y: 0.78, w: 95, h: 95, emoji: '🦆', health: 100, points: 35 },
 
                 // Platform
-                { x: 0.72, y: 0.78, w: 120, h: 20, health: 150, points: 10, color: '#4A90A4', isStatic: false },
+                { x: 0.75, y: 0.72, w: 160, h: 35, health: 150, points: 10, color: '#4A90A4', isStatic: false },
 
                 // Big ducks on platform
-                { x: 0.68, y: 0.68, w: 50, h: 50, emoji: '🦆', health: 80, points: 30 },
-                { x: 0.76, y: 0.68, w: 50, h: 50, emoji: '🦆', health: 80, points: 30 },
+                { x: 0.68, y: 0.58, w: 80, h: 80, emoji: '🦆', health: 80, points: 30 },
+                { x: 0.82, y: 0.58, w: 80, h: 80, emoji: '🦆', health: 80, points: 30 },
 
                 // BOSS DUCK
-                { x: 0.85, y: 0.75, w: 100, h: 100, emoji: '🦆', health: 200, points: 100 },
+                { x: 0.88, y: 0.72, w: 150, h: 150, emoji: '🦆', health: 200, points: 100 },
 
                 // Tiny duck army
-                { x: 0.9, y: 0.85, w: 30, h: 30, emoji: '🐤', health: 40, points: 15 },
-                { x: 0.95, y: 0.85, w: 30, h: 30, emoji: '🐤', health: 40, points: 15 },
+                { x: 0.92, y: 0.82, w: 55, h: 55, emoji: '🐤', health: 40, points: 15 },
+                { x: 0.98, y: 0.82, w: 55, h: 55, emoji: '🐤', health: 40, points: 15 },
             ],
             platforms: []
         }

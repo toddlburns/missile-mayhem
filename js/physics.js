@@ -411,34 +411,189 @@ const Physics = {
         this.ctx.translate(pos.x, pos.y);
         this.ctx.rotate(angle);
 
+        // Calculate damage level (0 = no damage, 1 = destroyed)
+        const maxHealth = target.data.health || 100;
+        const damagePercent = 1 - (target.health / maxHealth);
+
         // Draw based on target type
         if (data.emoji) {
-            this.ctx.font = `${data.size || 40}px Arial`;
+            const fontSize = (data.size || 60) * 1.5; // Make emojis bigger
+            this.ctx.font = `${fontSize}px Arial`;
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
+
+            // Draw shadow/base layer
+            this.ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            this.ctx.fillText(data.emoji, 3, 3);
+
+            // Draw main emoji
             this.ctx.fillText(data.emoji, 0, 0);
+
+            // Draw damage effects on top
+            if (damagePercent > 0) {
+                this.drawDamageEffects(damagePercent, fontSize);
+            }
         } else {
             // Default box shape
-            const w = data.width || 40;
-            const h = data.height || 40;
-            this.ctx.fillStyle = data.color || '#FF6B6B';
-            this.ctx.fillRect(-w / 2, -h / 2, w, h);
-            this.ctx.strokeStyle = '#C0392B';
-            this.ctx.lineWidth = 2;
-            this.ctx.strokeRect(-w / 2, -h / 2, w, h);
-        }
+            const w = data.width || 60;
+            const h = data.height || 60;
 
-        // Health bar
-        if (target.health < (target.data.health || 100)) {
-            const healthPercent = target.health / (target.data.health || 100);
-            const barWidth = 40;
-            this.ctx.fillStyle = '#333';
-            this.ctx.fillRect(-barWidth / 2, -35, barWidth, 6);
-            this.ctx.fillStyle = healthPercent > 0.5 ? '#4CD137' : healthPercent > 0.25 ? '#FDCB6E' : '#E74C3C';
-            this.ctx.fillRect(-barWidth / 2, -35, barWidth * healthPercent, 6);
+            // Base color gets darker/more damaged looking
+            let baseColor = data.color || '#FF6B6B';
+            if (damagePercent > 0) {
+                baseColor = this.darkenColor(baseColor, damagePercent * 0.4);
+            }
+
+            this.ctx.fillStyle = baseColor;
+            this.ctx.fillRect(-w / 2, -h / 2, w, h);
+
+            // Border
+            this.ctx.strokeStyle = this.darkenColor(baseColor, 0.3);
+            this.ctx.lineWidth = 3;
+            this.ctx.strokeRect(-w / 2, -h / 2, w, h);
+
+            // Draw cracks and damage on boxes
+            if (damagePercent > 0) {
+                this.drawBoxDamage(w, h, damagePercent);
+            }
         }
 
         this.ctx.restore();
+    },
+
+    // Draw damage effects (bruises, cracks, etc.)
+    drawDamageEffects(damagePercent, size) {
+        const radius = size * 0.4;
+
+        // Draw bruise/damage marks based on damage level
+        if (damagePercent > 0.1) {
+            // Light damage - small marks
+            this.ctx.fillStyle = 'rgba(100, 60, 60, 0.3)';
+            this.ctx.beginPath();
+            this.ctx.arc(radius * 0.3, -radius * 0.2, size * 0.08, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
+
+        if (damagePercent > 0.3) {
+            // Medium damage - more marks and some cracks
+            this.ctx.fillStyle = 'rgba(80, 40, 40, 0.4)';
+            this.ctx.beginPath();
+            this.ctx.arc(-radius * 0.4, radius * 0.1, size * 0.1, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            // Crack lines
+            this.ctx.strokeStyle = 'rgba(60, 30, 30, 0.5)';
+            this.ctx.lineWidth = 2;
+            this.ctx.beginPath();
+            this.ctx.moveTo(-radius * 0.2, -radius * 0.3);
+            this.ctx.lineTo(radius * 0.1, radius * 0.2);
+            this.ctx.stroke();
+        }
+
+        if (damagePercent > 0.5) {
+            // Heavy damage - big bruises and multiple cracks
+            this.ctx.fillStyle = 'rgba(60, 20, 20, 0.5)';
+            this.ctx.beginPath();
+            this.ctx.arc(radius * 0.2, radius * 0.3, size * 0.12, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            this.ctx.fillStyle = 'rgba(80, 30, 30, 0.4)';
+            this.ctx.beginPath();
+            this.ctx.arc(-radius * 0.3, -radius * 0.4, size * 0.09, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            // More cracks
+            this.ctx.strokeStyle = 'rgba(40, 20, 20, 0.6)';
+            this.ctx.lineWidth = 2;
+            this.ctx.beginPath();
+            this.ctx.moveTo(radius * 0.3, -radius * 0.2);
+            this.ctx.lineTo(radius * 0.1, radius * 0.4);
+            this.ctx.lineTo(-radius * 0.2, radius * 0.3);
+            this.ctx.stroke();
+        }
+
+        if (damagePercent > 0.75) {
+            // Critical damage - about to break!
+            this.ctx.fillStyle = 'rgba(40, 10, 10, 0.6)';
+            this.ctx.beginPath();
+            this.ctx.arc(0, 0, size * 0.15, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            // Lots of cracks
+            this.ctx.strokeStyle = 'rgba(30, 10, 10, 0.7)';
+            this.ctx.lineWidth = 3;
+            this.ctx.beginPath();
+            this.ctx.moveTo(-radius * 0.4, -radius * 0.4);
+            this.ctx.lineTo(radius * 0.2, 0);
+            this.ctx.lineTo(radius * 0.4, radius * 0.4);
+            this.ctx.stroke();
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(radius * 0.3, -radius * 0.3);
+            this.ctx.lineTo(-radius * 0.1, radius * 0.1);
+            this.ctx.stroke();
+        }
+    },
+
+    // Draw damage on box targets
+    drawBoxDamage(w, h, damagePercent) {
+        const hw = w / 2;
+        const hh = h / 2;
+
+        // Dents and dark spots
+        this.ctx.fillStyle = `rgba(0, 0, 0, ${damagePercent * 0.3})`;
+
+        if (damagePercent > 0.2) {
+            this.ctx.beginPath();
+            this.ctx.arc(-hw * 0.3, -hh * 0.2, w * 0.1, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
+
+        if (damagePercent > 0.4) {
+            this.ctx.beginPath();
+            this.ctx.arc(hw * 0.2, hh * 0.3, w * 0.12, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
+
+        // Cracks
+        this.ctx.strokeStyle = `rgba(0, 0, 0, ${damagePercent * 0.5})`;
+        this.ctx.lineWidth = 2;
+
+        if (damagePercent > 0.3) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(-hw * 0.5, -hh * 0.3);
+            this.ctx.lineTo(hw * 0.2, hh * 0.1);
+            this.ctx.stroke();
+        }
+
+        if (damagePercent > 0.6) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(hw * 0.3, -hh * 0.5);
+            this.ctx.lineTo(-hw * 0.1, hh * 0.4);
+            this.ctx.stroke();
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(-hw * 0.4, hh * 0.2);
+            this.ctx.lineTo(hw * 0.4, hh * 0.4);
+            this.ctx.stroke();
+        }
+    },
+
+    // Helper to darken a color
+    darkenColor(color, amount) {
+        // Handle hex colors
+        if (color.startsWith('#')) {
+            let r = parseInt(color.slice(1, 3), 16);
+            let g = parseInt(color.slice(3, 5), 16);
+            let b = parseInt(color.slice(5, 7), 16);
+
+            r = Math.floor(r * (1 - amount));
+            g = Math.floor(g * (1 - amount));
+            b = Math.floor(b * (1 - amount));
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+        return color;
     },
 
     drawProjectile(projectile) {
