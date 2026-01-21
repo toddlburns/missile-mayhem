@@ -121,40 +121,13 @@ const Physics = {
     },
 
     handleProjectileHit(projectile, target, pair) {
-        // Calculate projectile speed
-        const velocity = projectile.body.velocity;
-        const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-
-        // Direct hit = fast projectile (speed > 8) destroys in 1 hit
-        // Glancing hit = slower projectile takes 3 hits to destroy
-        const isDirectHit = speed > 8;
-
-        // Initialize hit count if not set
-        if (target.hitCount === undefined) {
-            target.hitCount = 0;
-        }
-
         // Create impact effect
         if (Game && Game.createImpactEffect) {
             Game.createImpactEffect(pair.collision.supports[0] || target.body.position);
         }
 
-        if (isDirectHit) {
-            // Direct hit - destroy immediately!
-            target.hitCount = 3;
-            target.health = 0;
-            this.destroyTarget(target);
-        } else {
-            // Glancing hit - increment hit counter
-            target.hitCount++;
-            // Update health for visual damage (33% per hit)
-            target.health = target.data.health * (1 - target.hitCount / 3);
-
-            // Destroy after 3 hits
-            if (target.hitCount >= 3) {
-                this.destroyTarget(target);
-            }
-        }
+        // Any hit destroys the target immediately!
+        this.destroyTarget(target);
 
         // Handle special projectile behaviors
         if (projectile.data?.onHit) {
