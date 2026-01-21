@@ -121,22 +121,39 @@ const Physics = {
     },
 
     handleProjectileHit(projectile, target, pair) {
-        // Calculate impact force
+        // Calculate projectile speed
         const velocity = projectile.body.velocity;
         const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-        const impactForce = speed * projectile.body.mass * (projectile.data?.impactMultiplier || 1);
 
-        // Apply damage to target
-        target.health -= impactForce;
+        // Direct hit = fast projectile (speed > 8) destroys in 1 hit
+        // Glancing hit = slower projectile takes 3 hits to destroy
+        const isDirectHit = speed > 8;
+
+        // Initialize hit count if not set
+        if (target.hitCount === undefined) {
+            target.hitCount = 0;
+        }
 
         // Create impact effect
         if (Game && Game.createImpactEffect) {
             Game.createImpactEffect(pair.collision.supports[0] || target.body.position);
         }
 
-        // Check if target is destroyed
-        if (target.health <= 0) {
+        if (isDirectHit) {
+            // Direct hit - destroy immediately!
+            target.hitCount = 3;
+            target.health = 0;
             this.destroyTarget(target);
+        } else {
+            // Glancing hit - increment hit counter
+            target.hitCount++;
+            // Update health for visual damage (33% per hit)
+            target.health = target.data.health * (1 - target.hitCount / 3);
+
+            // Destroy after 3 hits
+            if (target.hitCount >= 3) {
+                this.destroyTarget(target);
+            }
         }
 
         // Handle special projectile behaviors
@@ -232,7 +249,9 @@ const Physics = {
             body,
             data: targetData,
             health: targetData.health || 100,
-            points: targetData.points || 10
+            maxHealth: targetData.health || 100,
+            points: targetData.points || 10,
+            hitCount: 0
         };
 
         this.targets.push(target);
@@ -411,9 +430,8 @@ const Physics = {
         this.ctx.translate(pos.x, pos.y);
         this.ctx.rotate(angle);
 
-        // Calculate damage level (0 = no damage, 1 = destroyed)
-        const maxHealth = target.data.health || 100;
-        const damagePercent = 1 - (target.health / maxHealth);
+        // Calculate damage level based on hit count (0, 1, 2 hits = 0%, 33%, 66% damage)
+        const damagePercent = (target.hitCount || 0) / 3;
 
         // Draw based on target type
         if (data.emoji) {
