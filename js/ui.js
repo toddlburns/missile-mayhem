@@ -4,7 +4,7 @@ const UI = {
     currentScreen: null,
     selectedLevel: 1,
     selectedVehicle: 'jeep',
-    selectedProjectile: 'standardMissile',
+    selectedProjectile: 'pizza',
     selectedBackground: 'backyard',
     selectedAmmoSlot: 0,
 

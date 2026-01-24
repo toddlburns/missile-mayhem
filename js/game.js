@@ -9,7 +9,7 @@ const Game = {
         isPaused: false,
         isPlaying: false,
         selectedVehicle: 'jeep',
-        selectedProjectile: 'standardMissile',
+        selectedProjectile: 'pizza',
         selectedBackground: 'backyard',
         ammoInventory: [],
         selectedAmmoIndex: 0

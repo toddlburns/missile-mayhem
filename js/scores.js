@@ -108,7 +108,7 @@ const GameProgress = {
     data: {
         highestLevel: 1,
         unlockedVehicles: ['jeep'],
-        unlockedProjectiles: ['smallRocket', 'standardMissile'],
+        unlockedProjectiles: ['cupcake', 'pizza'],
         unlockedBackgrounds: ['backyard'],
         totalScore: 0,
         gamesPlayed: 0
@@ -205,7 +205,7 @@ const GameProgress = {
         this.data = {
             highestLevel: 1,
             unlockedVehicles: ['jeep'],
-            unlockedProjectiles: ['smallRocket', 'standardMissile'],
+            unlockedProjectiles: ['cupcake', 'pizza'],
             unlockedBackgrounds: ['backyard'],
             totalScore: 0,
             gamesPlayed: 0

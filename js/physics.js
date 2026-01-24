@@ -1245,7 +1245,22 @@ const Physics = {
         this.ctx.rotate(angle);
 
         if (data.emoji) {
-            this.ctx.font = `${(data.size || 15) * 2}px Arial`;
+            const fontSize = (data.size || 15) * 2.5; // Bigger emoji
+
+            // Draw solid background circle for visibility
+            const bgRadius = fontSize * 0.6;
+            this.ctx.fillStyle = '#FFFFFF';
+            this.ctx.beginPath();
+            this.ctx.arc(0, 0, bgRadius, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            // Draw thick colored border
+            this.ctx.strokeStyle = data.color || '#FF6B6B';
+            this.ctx.lineWidth = 4;
+            this.ctx.stroke();
+
+            // Draw the emoji
+            this.ctx.font = `${fontSize}px Arial`;
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(data.emoji, 0, 0);

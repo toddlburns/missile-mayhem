@@ -1,11 +1,11 @@
-// Projectile Definitions
+// Projectile Definitions - All ridiculous and silly!
 const Projectiles = {
     types: {
-        smallRocket: {
-            id: 'smallRocket',
-            name: 'Small Rocket',
-            emoji: '🚀',
-            size: 12,
+        cupcake: {
+            id: 'cupcake',
+            name: 'Cupcake',
+            emoji: '🧁',
+            size: 14,
             sizeClass: 'S',
             shape: 'circle',
             density: 0.0008,
@@ -14,16 +14,16 @@ const Projectiles = {
             speedMultiplier: 1.3,
             impactMultiplier: 0.7,
             trail: true,
-            trailColor: 'rgba(255,150,50,0.6)',
-            color: '#E74C3C',
+            trailColor: 'rgba(255,182,193,0.6)',
+            color: '#FF69B4',
             unlockLevel: 1,
-            description: 'Fast and light - great for quick hits!'
+            description: 'Sweet and speedy! Frosting fury!'
         },
 
-        standardMissile: {
-            id: 'standardMissile',
-            name: 'Standard Missile',
-            emoji: '🎯',
+        pizza: {
+            id: 'pizza',
+            name: 'Pizza Slice',
+            emoji: '🍕',
             size: 18,
             sizeClass: 'M',
             shape: 'circle',
@@ -33,17 +33,17 @@ const Projectiles = {
             speedMultiplier: 1.0,
             impactMultiplier: 1.0,
             trail: true,
-            trailColor: 'rgba(255,100,100,0.5)',
-            color: '#C0392B',
+            trailColor: 'rgba(255,200,50,0.5)',
+            color: '#FFA500',
             unlockLevel: 1,
-            description: 'Your trusty all-rounder!'
+            description: 'Cheesy destruction! Extra toppings!'
         },
 
-        bigBomb: {
-            id: 'bigBomb',
-            name: 'Big Bomb',
-            emoji: '💣',
-            size: 25,
+        pumpkin: {
+            id: 'pumpkin',
+            name: 'Pumpkin',
+            emoji: '🎃',
+            size: 28,
             sizeClass: 'L',
             shape: 'circle',
             density: 0.002,
@@ -52,17 +52,17 @@ const Projectiles = {
             speedMultiplier: 0.7,
             impactMultiplier: 1.8,
             trail: true,
-            trailColor: 'rgba(50,50,50,0.5)',
-            color: '#2C3E50',
+            trailColor: 'rgba(255,140,0,0.5)',
+            color: '#FF8C00',
             unlockLevel: 1,
-            description: 'Heavy and slow, but packs a punch!'
+            description: 'Spooky smashing! Heavy gourd!'
         },
 
-        bouncyBall: {
-            id: 'bouncyBall',
-            name: 'Bouncy Ball',
-            emoji: '⚽',
-            size: 20,
+        beachBall: {
+            id: 'beachBall',
+            name: 'Beach Ball',
+            emoji: '🏐',
+            size: 22,
             sizeClass: 'M',
             shape: 'circle',
             density: 0.0005,
@@ -72,9 +72,9 @@ const Projectiles = {
             impactMultiplier: 0.6,
             bounces: 3,
             trail: false,
-            color: '#9B59B6',
+            color: '#00CED1',
             unlockLevel: 1,
-            description: 'Bounces 3 times - plan your shots!'
+            description: 'Boing boing boing! Summer vibes!'
         },
 
         watermelon: {
@@ -92,7 +92,7 @@ const Projectiles = {
             trail: false,
             color: '#27AE60',
             unlockLevel: 1,
-            description: 'Splits into pieces on impact!',
+            description: 'SPLAT! Juicy explosion!',
             onHit: (projectile, target, physics) => {
                 // Spawn smaller pieces
                 const pos = projectile.body.position;
@@ -109,6 +109,7 @@ const Projectiles = {
                             {
                                 emoji: '🍉',
                                 size: 10,
+                                color: '#27AE60',
                                 density: 0.0008,
                                 restitution: 0.3,
                                 impactMultiplier: 0.4,
@@ -134,9 +135,9 @@ const Projectiles = {
             impactMultiplier: 0.5,
             bounces: 5,
             trail: false,
-            color: '#F39C12',
+            color: '#FFD700',
             unlockLevel: 1,
-            description: 'Totally unpredictable bouncing!'
+            description: 'BAWK BAWK! Totally unpredictable!'
         },
 
         giantDonut: {
@@ -154,13 +155,13 @@ const Projectiles = {
             trail: false,
             color: '#E91E63',
             unlockLevel: 1,
-            description: 'Rolls and smashes everything!'
+            description: 'Sprinkled destruction! Rolls everywhere!'
         },
 
-        megaRocket: {
-            id: 'megaRocket',
-            name: 'Mega Rocket',
-            emoji: '☄️',
+        flyingToilet: {
+            id: 'flyingToilet',
+            name: 'Flying Toilet',
+            emoji: '🚽',
             size: 35,
             sizeClass: 'XL',
             shape: 'circle',
@@ -170,16 +171,16 @@ const Projectiles = {
             speedMultiplier: 0.6,
             impactMultiplier: 2.5,
             trail: true,
-            trailColor: 'rgba(255,200,50,0.7)',
-            color: '#E74C3C',
+            trailColor: 'rgba(173,216,230,0.7)',
+            color: '#ADD8E6',
             unlockLevel: 1,
-            description: 'MAXIMUM DESTRUCTION!'
+            description: 'FLUSH OF DOOM! Maximum absurdity!'
         }
     },
 
     // Get projectile by ID
     get(id) {
-        return this.types[id] || this.types.standardMissile;
+        return this.types[id] || this.types.pizza;
     },
 
     // Get all unlocked projectiles for a level
