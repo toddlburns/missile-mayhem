@@ -145,18 +145,19 @@ const Physics = {
     },
 
     destroyTarget(target) {
-        // Trigger destruction callback
-        if (Game && Game.onTargetDestroyed) {
-            Game.onTargetDestroyed(target);
-        }
-
         // Remove from physics world
         Matter.World.remove(this.world, target.body);
 
-        // Remove from targets array
+        // Remove from targets array FIRST (before callback checks length)
         const index = this.targets.indexOf(target);
         if (index > -1) {
             this.targets.splice(index, 1);
+        }
+
+        // Trigger destruction callback AFTER target is removed
+        // so checkLevelComplete() sees the correct count
+        if (Game && Game.onTargetDestroyed) {
+            Game.onTargetDestroyed(target);
         }
     },
 
