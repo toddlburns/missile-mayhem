@@ -129,9 +129,10 @@ const Game = {
         Launcher.setVehicle(options.vehicle);
         Launcher.setProjectile(options.projectile);
 
-        // Set up physics gravity based on background
+        // Set up physics gravity based on background and store level number for decorations
         const bg = Backgrounds.get(options.background);
         Physics.setGravity(bg.gravity.x, bg.gravity.y);
+        Physics.currentLevelNum = levelNum;
 
         // Reset level state
         this.state.missilesLeft = this.state.totalMissiles;
@@ -291,33 +292,31 @@ const Game = {
         if (this.state.currentLevel >= Levels.count()) {
             this.gameVictory();
         } else {
-            // Immediately start next level
+            // Immediately start next level with its designated background
             this.state.currentLevel++;
+            const nextLevel = Levels.get(this.state.currentLevel);
             this.startLevel(this.state.currentLevel, {
                 vehicle: this.state.selectedVehicle,
                 projectile: this.state.selectedProjectile,
-                background: this.state.selectedBackground
+                background: nextLevel.background
             });
         }
     },
 
-    async levelLost() {
+    levelLost() {
         this.state.isPaused = true;
         this.state.lives--;
 
         if (this.state.lives <= 0) {
-            // Game over
-            await ArmyGuy.show('gameOver');
+            // Game over - go directly to game over screen
             this.gameOver();
         } else {
-            // Show Army Guy encouragement
-            await ArmyGuy.show('lose');
-
-            // Restart level
+            // Restart level immediately with its designated background
+            const levelConfig = Levels.get(this.state.currentLevel);
             this.startLevel(this.state.currentLevel, {
                 vehicle: this.state.selectedVehicle,
                 projectile: this.state.selectedProjectile,
-                background: this.state.selectedBackground
+                background: levelConfig.background
             });
         }
     },

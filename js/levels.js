@@ -1,7 +1,7 @@
 // Level Configurations
 const Levels = {
     configs: [
-        // Level 1: Cardboard Robots
+        // Level 1: Cardboard Robots - Backyard
         {
             id: 1,
             name: 'Cardboard Robots',
@@ -20,12 +20,15 @@ const Levels = {
                 { x: 0.85, y: 0.82, w: 70, h: 100, emoji: '📦', health: 100, points: 10, color: '#C9A66B' },
                 { x: 0.85, y: 0.62, w: 80, h: 80, emoji: '🤖', health: 70, points: 25 },
             ],
-            platforms: [
-                // No extra platforms for level 1
+            platforms: [],
+            // Decorations that appear behind obstacles (non-interactive)
+            decorations: [
+                { x: 0.45, y: 0.85, emoji: '🌻', size: 40 },
+                { x: 0.95, y: 0.85, emoji: '🌸', size: 35 },
             ]
         },
 
-        // Level 2: Jello Towers
+        // Level 2: Jello Towers - Backyard (party theme)
         {
             id: 2,
             name: 'Jello Towers',
@@ -48,10 +51,15 @@ const Levels = {
                 // Bridge jello
                 { x: 0.61, y: 0.42, w: 150, h: 45, emoji: '🍮', health: 60, points: 30, restitution: 0.8 },
             ],
-            platforms: []
+            platforms: [],
+            decorations: [
+                { x: 0.38, y: 0.85, emoji: '🎈', size: 50 },
+                { x: 0.88, y: 0.85, emoji: '🎈', size: 50 },
+                { x: 0.42, y: 0.75, emoji: '🎉', size: 40 },
+            ]
         },
 
-        // Level 3: Grumpy Vegetables
+        // Level 3: Grumpy Vegetables - Desert
         {
             id: 3,
             name: 'Grumpy Vegetables',
@@ -76,16 +84,20 @@ const Levels = {
                 // Sneaky veggie
                 { x: 0.92, y: 0.82, w: 65, h: 65, emoji: '🧅', health: 50, points: 35 },
             ],
-            platforms: []
+            platforms: [],
+            decorations: [
+                { x: 0.38, y: 0.85, emoji: '🌵', size: 60, layer: 'back' },
+                { x: 0.52, y: 0.85, emoji: '🦎', size: 30 },
+            ]
         },
 
-        // Level 4: Sock Puppet Aliens
+        // Level 4: Sock Puppet Aliens - Night City
         {
             id: 4,
             name: 'Sock Puppet Aliens',
             description: 'Silly aliens in pillow forts!',
             theme: 'aliens',
-            background: 'backyard',
+            background: 'city',
             missiles: 6,
             minScore: 400,
             targets: [
@@ -108,16 +120,21 @@ const Levels = {
                 // Lookout alien
                 { x: 0.94, y: 0.82, w: 70, h: 85, emoji: '🛸', health: 60, points: 40 },
             ],
-            platforms: []
+            platforms: [],
+            decorations: [
+                { x: 0.35, y: 0.85, emoji: '🏮', size: 40, layer: 'front' },
+                { x: 0.65, y: 0.85, emoji: '🗑️', size: 35, layer: 'back' },
+                { x: 0.9, y: 0.72, emoji: '📡', size: 45, layer: 'front' },
+            ]
         },
 
-        // Level 5: Birthday Cake Towers
+        // Level 5: Birthday Cake Towers - Jungle
         {
             id: 5,
             name: 'Birthday Cake Towers',
             description: 'Stacked cakes with candles!',
             theme: 'cakes',
-            background: 'snow',
+            background: 'jungle',
             missiles: 6,
             minScore: 500,
             targets: [
@@ -134,14 +151,20 @@ const Levels = {
                 { x: 0.65, y: 0.40, w: 70, h: 40, emoji: '🍰', health: 50, points: 25 },
                 { x: 0.65, y: 0.30, w: 60, h: 60, emoji: '🕯️', health: 35, points: 35 },
 
-                // Side cupcakes
+                // Side cupcakes - partially hidden by vines
                 { x: 0.85, y: 0.82, w: 70, h: 70, emoji: '🧁', health: 45, points: 25 },
                 { x: 0.93, y: 0.82, w: 70, h: 70, emoji: '🧁', health: 45, points: 25 },
             ],
-            platforms: []
+            platforms: [],
+            decorations: [
+                { x: 0.32, y: 0.85, emoji: '🌴', size: 80, layer: 'back' },
+                { x: 0.78, y: 0.85, emoji: '🌿', size: 50, layer: 'front' },
+                { x: 0.55, y: 0.85, emoji: '🦜', size: 40 },
+                { x: 0.92, y: 0.70, emoji: '🍃', size: 60, layer: 'front' },
+            ]
         },
 
-        // Level 6: Giant Rubber Ducks (Boss Level)
+        // Level 6: Giant Rubber Ducks (Boss Level) - Moon
         {
             id: 6,
             name: 'Giant Rubber Ducks',
@@ -172,7 +195,12 @@ const Levels = {
                 { x: 0.92, y: 0.82, w: 55, h: 55, emoji: '🐤', health: 40, points: 15 },
                 { x: 0.98, y: 0.82, w: 55, h: 55, emoji: '🐤', health: 40, points: 15 },
             ],
-            platforms: []
+            platforms: [],
+            decorations: [
+                { x: 0.35, y: 0.85, emoji: '🪨', size: 50, layer: 'back' },
+                { x: 0.55, y: 0.75, emoji: '🚀', size: 60, layer: 'front' },
+                { x: 0.78, y: 0.85, emoji: '👨‍🚀', size: 45, layer: 'front' },
+            ]
         }
     ],
 

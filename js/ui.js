@@ -44,10 +44,12 @@ const UI = {
         });
 
         document.getElementById('start-mission').addEventListener('click', () => {
+            // Background is determined by the level, not user choice
+            const levelConfig = Levels.get(this.selectedLevel);
             Game.startLevel(this.selectedLevel, {
                 vehicle: this.selectedVehicle,
                 projectile: this.selectedProjectile,
-                background: this.selectedBackground
+                background: levelConfig.background
             });
         });
 
@@ -156,7 +158,7 @@ const UI = {
     populateLoadout() {
         this.populateVehicleOptions();
         this.populateAmmoOptions();
-        this.populateBackgroundOptions();
+        // Background is now determined by level, not user choice
     },
 
     populateVehicleOptions() {
@@ -307,19 +309,18 @@ const UI = {
         document.getElementById('pause-menu').classList.add('hidden');
     },
 
-    // Game over
+    // Game over - always allow name entry for scoreboard
     showGameOver(score, isHighScore) {
         this.showScreen('gameOver');
         document.getElementById('final-score').textContent = `FINAL SCORE: ${score}`;
 
+        // Always show name entry on game over
         const nameEntry = document.getElementById('name-entry');
-        if (isHighScore) {
-            nameEntry.classList.remove('hidden');
-            document.getElementById('player-name').value = '';
-            document.getElementById('player-name').focus();
-        } else {
-            nameEntry.classList.add('hidden');
-        }
+        nameEntry.classList.remove('hidden');
+        document.getElementById('player-name').value = '';
+        document.getElementById('player-name').focus();
+        document.getElementById('save-score-btn').disabled = false;
+        document.getElementById('save-score-btn').textContent = 'SAVE SCORE';
     },
 
     saveScore() {

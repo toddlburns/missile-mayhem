@@ -52,9 +52,11 @@ const Launcher = {
         // Angle (pointing away from drag direction)
         this.angle = Math.atan2(dy, dx);
 
-        // Clamp angle to reasonable range (0 to -PI, which is 0 to 180 degrees above horizontal)
-        if (this.angle > 0) this.angle = 0;
-        if (this.angle < -Math.PI) this.angle = -Math.PI;
+        // Clamp angle to ONLY forward-facing directions (no backwards shooting)
+        // Range: 0 (horizontal right) to -PI/2 (straight up) - never past vertical
+        // This prevents the turret from ever pointing backwards (left)
+        if (this.angle > 0) this.angle = 0;  // Don't point below horizontal
+        if (this.angle < -Math.PI / 2) this.angle = -Math.PI / 2;  // Don't point past vertical
 
         // Power based on drag distance
         const dragDist = Math.sqrt(dx * dx + dy * dy);
@@ -161,45 +163,362 @@ const Launcher = {
     drawVehicle(ctx) {
         const vehicle = this.currentVehicle;
 
-        // Vehicle body
-        ctx.fillStyle = vehicle.color;
-        ctx.beginPath();
-        ctx.roundRect(-this.baseWidth / 2, -this.baseHeight / 2, this.baseWidth, this.baseHeight, 15);
-        ctx.fill();
+        // Draw different vehicle based on type
+        switch (vehicle.id) {
+            case 'jeep':
+                this.drawJeep(ctx);
+                break;
+            case 'tank':
+                this.drawTank(ctx);
+                break;
+            case 'rocketTruck':
+                this.drawRocketTruck(ctx);
+                break;
+            case 'artillery':
+                this.drawArtillery(ctx);
+                break;
+            default:
+                this.drawJeep(ctx);
+        }
+    },
 
-        // Vehicle border
-        ctx.strokeStyle = '#1a1a1a';
-        ctx.lineWidth = 4;
+    // Army Jeep - Classic open-top military jeep
+    drawJeep(ctx) {
+        const w = this.baseWidth;
+        const h = this.baseHeight;
+
+        // Main body (olive drab)
+        ctx.fillStyle = '#556B2F';
+        ctx.beginPath();
+        ctx.moveTo(-w/2 + 10, -h/3);
+        ctx.lineTo(-w/2 + 20, -h/2);
+        ctx.lineTo(w/2 - 10, -h/2);
+        ctx.lineTo(w/2, -h/3);
+        ctx.lineTo(w/2, h/4);
+        ctx.lineTo(-w/2, h/4);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#3d4d23';
+        ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Vehicle highlight
-        ctx.fillStyle = 'rgba(255,255,255,0.3)';
-        ctx.fillRect(-this.baseWidth / 2 + 10, -this.baseHeight / 2 + 10, this.baseWidth - 20, this.baseHeight / 3);
+        // Windshield frame
+        ctx.fillStyle = '#3d4d23';
+        ctx.fillRect(-w/4, -h/2 - 5, w/2.5, 8);
+        ctx.fillRect(-w/4, -h/2 - 5, 6, 35);
+        ctx.fillRect(w/4 - 20, -h/2 - 5, 6, 35);
 
-        // Wheels
+        // Hood
+        ctx.fillStyle = '#4a5d27';
+        ctx.fillRect(-w/2 + 15, -h/3, w/3, h/2);
+
+        // Grille
         ctx.fillStyle = '#2C3E50';
+        ctx.fillRect(-w/2 + 5, -h/4, 12, h/3);
+        ctx.fillStyle = '#1a1a1a';
+        for (let i = 0; i < 4; i++) {
+            ctx.fillRect(-w/2 + 7, -h/4 + 5 + i * 8, 8, 3);
+        }
+
+        // Headlights
+        ctx.fillStyle = '#F4D03F';
         ctx.beginPath();
-        ctx.arc(-this.baseWidth / 3, this.baseHeight / 2 - 5, 25, 0, Math.PI * 2);
-        ctx.arc(this.baseWidth / 3, this.baseHeight / 2 - 5, 25, 0, Math.PI * 2);
+        ctx.arc(-w/2 + 10, -h/3 - 5, 8, 0, Math.PI * 2);
         ctx.fill();
 
-        // Wheel border
+        // Seats
+        ctx.fillStyle = '#2C3E50';
+        ctx.fillRect(-5, -h/4, 40, 25);
+        ctx.fillRect(-5, -h/4 - 15, 40, 8);
+
+        // Wheels (large off-road tires)
+        this.drawWheel(ctx, -w/3, h/2 - 5, 28);
+        this.drawWheel(ctx, w/3 - 5, h/2 - 5, 28);
+
+        // Star emblem
+        ctx.fillStyle = '#FFFFFF';
+        this.drawStar(ctx, w/4, -h/4, 12);
+    },
+
+    // Tank - Heavy armored vehicle with tracks
+    drawTank(ctx) {
+        const w = this.baseWidth * 1.1;
+        const h = this.baseHeight;
+
+        // Tank tracks (bottom)
+        ctx.fillStyle = '#2C3E50';
+        ctx.beginPath();
+        ctx.roundRect(-w/2, h/6, w, h/3, 15);
+        ctx.fill();
         ctx.strokeStyle = '#1a1a1a';
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Wheel detail
-        ctx.fillStyle = '#7F8C8D';
+        // Track details (wheels inside track)
+        ctx.fillStyle = '#1a1a1a';
+        for (let i = 0; i < 5; i++) {
+            ctx.beginPath();
+            ctx.arc(-w/2 + 20 + i * (w-40)/4, h/3, 12, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.fillStyle = '#4a4a4a';
+        for (let i = 0; i < 5; i++) {
+            ctx.beginPath();
+            ctx.arc(-w/2 + 20 + i * (w-40)/4, h/3, 6, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Track pattern
+        ctx.strokeStyle = '#4a4a4a';
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 12; i++) {
+            ctx.beginPath();
+            ctx.moveTo(-w/2 + 10 + i * 14, h/6 + 3);
+            ctx.lineTo(-w/2 + 10 + i * 14, h/2 - 3);
+            ctx.stroke();
+        }
+
+        // Hull (lower body)
+        ctx.fillStyle = '#4A5D23';
         ctx.beginPath();
-        ctx.arc(-this.baseWidth / 3, this.baseHeight / 2 - 5, 12, 0, Math.PI * 2);
-        ctx.arc(this.baseWidth / 3, this.baseHeight / 2 - 5, 12, 0, Math.PI * 2);
+        ctx.moveTo(-w/2 + 5, h/6);
+        ctx.lineTo(-w/2 + 15, -h/4);
+        ctx.lineTo(w/2 - 15, -h/4);
+        ctx.lineTo(w/2 - 5, h/6);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#3d4d1a';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Turret base
+        ctx.fillStyle = '#3d4d1a';
+        ctx.beginPath();
+        ctx.roundRect(-w/4, -h/2, w/2, h/4 + 5, 8);
+        ctx.fill();
+        ctx.strokeStyle = '#2d3d10';
+        ctx.stroke();
+
+        // Turret top hatch
+        ctx.fillStyle = '#2d3d10';
+        ctx.beginPath();
+        ctx.arc(0, -h/2 + 15, 15, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#1a2a08';
+        ctx.beginPath();
+        ctx.arc(0, -h/2 + 15, 8, 0, Math.PI * 2);
         ctx.fill();
 
-        // Vehicle emoji
-        ctx.font = '50px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(vehicle.emoji, 0, -10);
+        // Armor plates detail
+        ctx.strokeStyle = '#2d3d10';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(-w/3, -h/6);
+        ctx.lineTo(-w/3, h/8);
+        ctx.moveTo(w/3, -h/6);
+        ctx.lineTo(w/3, h/8);
+        ctx.stroke();
+    },
+
+    // Rocket Truck - Military truck with rocket launcher
+    drawRocketTruck(ctx) {
+        const w = this.baseWidth * 1.15;
+        const h = this.baseHeight;
+
+        // Truck bed (back)
+        ctx.fillStyle = '#6B4423';
+        ctx.fillRect(0, -h/3, w/2 - 10, h/2 + 10);
+        ctx.strokeStyle = '#4a3015';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Bed rails
+        ctx.fillStyle = '#4a3015';
+        ctx.fillRect(0, -h/3, 5, h/2 + 10);
+        ctx.fillRect(w/2 - 15, -h/3, 5, h/2 + 10);
+
+        // Rocket rack on bed
+        ctx.fillStyle = '#2C3E50';
+        ctx.fillRect(10, -h/2 + 5, w/2 - 30, 15);
+        ctx.fillRect(10, -h/2 + 5, 8, h/3);
+        ctx.fillRect(w/2 - 28, -h/2 + 5, 8, h/3);
+
+        // Rockets in rack
+        ctx.fillStyle = '#8B0000';
+        for (let i = 0; i < 3; i++) {
+            ctx.beginPath();
+            ctx.roundRect(20 + i * 20, -h/2 + 8, 12, 40, 3);
+            ctx.fill();
+            // Rocket tips
+            ctx.fillStyle = '#C0C0C0';
+            ctx.beginPath();
+            ctx.moveTo(26 + i * 20, -h/2 + 8);
+            ctx.lineTo(20 + i * 20, -h/2 + 20);
+            ctx.lineTo(32 + i * 20, -h/2 + 20);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle = '#8B0000';
+        }
+
+        // Truck cab
+        ctx.fillStyle = '#8B0000';
+        ctx.beginPath();
+        ctx.moveTo(-w/2 + 10, h/4);
+        ctx.lineTo(-w/2 + 10, -h/3);
+        ctx.lineTo(-w/2 + 30, -h/2);
+        ctx.lineTo(5, -h/2);
+        ctx.lineTo(5, h/4);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#5a0000';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Cab window
+        ctx.fillStyle = '#87CEEB';
+        ctx.beginPath();
+        ctx.moveTo(-w/2 + 35, -h/2 + 5);
+        ctx.lineTo(-w/2 + 25, -h/3);
+        ctx.lineTo(0, -h/3);
+        ctx.lineTo(0, -h/2 + 5);
+        ctx.closePath();
+        ctx.fill();
+
+        // Headlight
+        ctx.fillStyle = '#F4D03F';
+        ctx.beginPath();
+        ctx.arc(-w/2 + 15, -h/4, 8, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Wheels (6 wheels - dual rear)
+        this.drawWheel(ctx, -w/3, h/2 - 5, 25);
+        this.drawWheel(ctx, w/4 - 10, h/2 - 5, 22);
+        this.drawWheel(ctx, w/4 + 15, h/2 - 5, 22);
+    },
+
+    // Artillery Cannon - Massive towed artillery piece
+    drawArtillery(ctx) {
+        const w = this.baseWidth * 1.2;
+        const h = this.baseHeight;
+
+        // Base platform
+        ctx.fillStyle = '#2F4F4F';
+        ctx.beginPath();
+        ctx.roundRect(-w/2 + 20, 0, w - 40, h/3, 5);
+        ctx.fill();
+        ctx.strokeStyle = '#1a3030';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Support struts
+        ctx.fillStyle = '#1a3030';
+        ctx.beginPath();
+        ctx.moveTo(-w/2 + 30, h/3);
+        ctx.lineTo(-w/2 + 10, h/2 + 10);
+        ctx.lineTo(-w/2 + 40, h/2 + 10);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(w/2 - 30, h/3);
+        ctx.lineTo(w/2 - 10, h/2 + 10);
+        ctx.lineTo(w/2 - 40, h/2 + 10);
+        ctx.closePath();
+        ctx.fill();
+
+        // Main cannon housing
+        ctx.fillStyle = '#3F5F5F';
+        ctx.beginPath();
+        ctx.roundRect(-w/4, -h/2 + 10, w/2, h/2, 10);
+        ctx.fill();
+        ctx.strokeStyle = '#2a4040';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Cannon elevation mechanism
+        ctx.fillStyle = '#2a4040';
+        ctx.beginPath();
+        ctx.arc(0, -h/4, 25, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#1a3030';
+        ctx.beginPath();
+        ctx.arc(0, -h/4, 15, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Ammo storage boxes
+        ctx.fillStyle = '#4a6a4a';
+        ctx.fillRect(-w/2 + 25, -h/4, 25, 30);
+        ctx.fillRect(w/2 - 50, -h/4, 25, 30);
+        ctx.fillStyle = '#3a5a3a';
+        ctx.fillRect(-w/2 + 27, -h/4 + 2, 21, 10);
+        ctx.fillRect(w/2 - 48, -h/4 + 2, 21, 10);
+
+        // Sights
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(-5, -h/2, 10, 15);
+        ctx.fillStyle = '#FF0000';
+        ctx.beginPath();
+        ctx.arc(0, -h/2, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Large wheels
+        this.drawWheel(ctx, -w/3 + 10, h/2, 32);
+        this.drawWheel(ctx, w/3 - 10, h/2, 32);
+    },
+
+    // Helper: Draw a detailed wheel
+    drawWheel(ctx, x, y, radius) {
+        // Tire
+        ctx.fillStyle = '#1a1a1a';
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Tire tread pattern
+        ctx.strokeStyle = '#2a2a2a';
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.moveTo(x + Math.cos(angle) * (radius - 5), y + Math.sin(angle) * (radius - 5));
+            ctx.lineTo(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius);
+            ctx.stroke();
+        }
+
+        // Rim
+        ctx.fillStyle = '#4a4a4a';
+        ctx.beginPath();
+        ctx.arc(x, y, radius * 0.6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Hub
+        ctx.fillStyle = '#6a6a6a';
+        ctx.beginPath();
+        ctx.arc(x, y, radius * 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Hub bolts
+        ctx.fillStyle = '#3a3a3a';
+        for (let i = 0; i < 5; i++) {
+            const angle = (i / 5) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.arc(x + Math.cos(angle) * radius * 0.2, y + Math.sin(angle) * radius * 0.2, 3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    },
+
+    // Helper: Draw a star
+    drawStar(ctx, x, y, radius) {
+        ctx.beginPath();
+        for (let i = 0; i < 5; i++) {
+            const angle = (i * 4 * Math.PI / 5) - Math.PI / 2;
+            const px = x + Math.cos(angle) * radius;
+            const py = y + Math.sin(angle) * radius;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
     },
 
     drawTurret(ctx) {
