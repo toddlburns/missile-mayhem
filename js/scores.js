@@ -175,15 +175,15 @@ const GameProgress = {
     },
 
     isVehicleUnlocked(id) {
-        return this.data.unlockedVehicles.includes(id);
+        return true; // All vehicles always available
     },
 
     isProjectileUnlocked(id) {
-        return this.data.unlockedProjectiles.includes(id);
+        return true; // All projectiles always available
     },
 
     isBackgroundUnlocked(id) {
-        return this.data.unlockedBackgrounds.includes(id);
+        return true; // All backgrounds always available
     },
 
     isLevelUnlocked(level) {
