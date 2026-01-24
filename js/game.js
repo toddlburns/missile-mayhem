@@ -167,10 +167,7 @@ const Game = {
         UI.updateHUD(this.state);
         UI.populateAmmoBar(this.state.ammoInventory, this.state.selectedAmmoIndex);
 
-        // Show level intro from Army Guy
-        await ArmyGuy.show('levelIntro', levelNum);
-
-        // Start game loop
+        // Start game loop immediately
         this.startGameLoop();
     },
 
@@ -279,7 +276,7 @@ const Game = {
         }
     },
 
-    async levelWon() {
+    levelWon() {
         this.state.isPaused = true;
 
         // Calculate bonus for remaining missiles
@@ -290,14 +287,11 @@ const Game = {
         // Unlock new content
         const unlocks = GameProgress.unlockForLevel(this.state.currentLevel);
 
-        // Show Army Guy win message
-        await ArmyGuy.show('win');
-
         // Check if game complete
         if (this.state.currentLevel >= Levels.count()) {
             this.gameVictory();
         } else {
-            // Start next level
+            // Immediately start next level
             this.state.currentLevel++;
             this.startLevel(this.state.currentLevel, {
                 vehicle: this.state.selectedVehicle,

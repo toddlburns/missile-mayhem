@@ -54,7 +54,7 @@ const Projectiles = {
             trail: true,
             trailColor: 'rgba(50,50,50,0.5)',
             color: '#2C3E50',
-            unlockLevel: 2,
+            unlockLevel: 1,
             description: 'Heavy and slow, but packs a punch!'
         },
 
@@ -73,7 +73,7 @@ const Projectiles = {
             bounces: 3,
             trail: false,
             color: '#9B59B6',
-            unlockLevel: 2,
+            unlockLevel: 1,
             description: 'Bounces 3 times - plan your shots!'
         },
 
@@ -91,7 +91,7 @@ const Projectiles = {
             impactMultiplier: 1.3,
             trail: false,
             color: '#27AE60',
-            unlockLevel: 3,
+            unlockLevel: 1,
             description: 'Splits into pieces on impact!',
             onHit: (projectile, target, physics) => {
                 // Spawn smaller pieces
@@ -135,7 +135,7 @@ const Projectiles = {
             bounces: 5,
             trail: false,
             color: '#F39C12',
-            unlockLevel: 4,
+            unlockLevel: 1,
             description: 'Totally unpredictable bouncing!'
         },
 
@@ -153,7 +153,7 @@ const Projectiles = {
             impactMultiplier: 1.2,
             trail: false,
             color: '#E91E63',
-            unlockLevel: 5,
+            unlockLevel: 1,
             description: 'Rolls and smashes everything!'
         },
 
@@ -172,7 +172,7 @@ const Projectiles = {
             trail: true,
             trailColor: 'rgba(255,200,50,0.7)',
             color: '#E74C3C',
-            unlockLevel: 6,
+            unlockLevel: 1,
             description: 'MAXIMUM DESTRUCTION!'
         }
     },
@@ -217,7 +217,7 @@ const Vehicles = {
             name: 'Tank',
             emoji: '🛡️',
             color: '#4A5D23',
-            unlockLevel: 2,
+            unlockLevel: 1,
             powerMultiplier: 1.3,
             description: 'Stronger shots for bigger impacts!'
         },
@@ -227,7 +227,7 @@ const Vehicles = {
             name: 'Rocket Truck',
             emoji: '🚚',
             color: '#8B0000',
-            unlockLevel: 4,
+            unlockLevel: 1,
             powerMultiplier: 1.2,
             speedBonus: 1.3,
             description: 'Faster projectiles zoom to targets!'
@@ -238,7 +238,7 @@ const Vehicles = {
             name: 'Artillery Cannon',
             emoji: '💪',
             color: '#2F4F4F',
-            unlockLevel: 6,
+            unlockLevel: 1,
             powerMultiplier: 1.5,
             blastRadius: 1.5,
             description: 'Biggest boom radius!'
@@ -270,7 +270,7 @@ const Backgrounds = {
             id: 'desert',
             name: 'Desert',
             emoji: '🏜️',
-            unlockLevel: 3,
+            unlockLevel: 1,
             gravity: { x: 0, y: 1 },
             description: 'Sandy dunes and cacti!'
         },
@@ -279,7 +279,7 @@ const Backgrounds = {
             id: 'snow',
             name: 'Snow',
             emoji: '❄️',
-            unlockLevel: 5,
+            unlockLevel: 1,
             gravity: { x: 0, y: 1 },
             description: 'Snowy hills and snowmen!'
         },
@@ -288,7 +288,7 @@ const Backgrounds = {
             id: 'moon',
             name: 'Moon',
             emoji: '🌙',
-            unlockLevel: 6,
+            unlockLevel: 1,
             gravity: { x: 0, y: 0.3 },
             description: 'Low gravity mayhem!'
         }
